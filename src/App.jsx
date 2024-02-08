@@ -1,4 +1,3 @@
-import "./index.css";
 import { useState } from "react";
 
 const tempMovieData = [
@@ -95,18 +94,15 @@ function Main({ children }) {
   return <main className="main">{children}</main>;
 }
 
-function Listbox({ children }) {
-  const [isOpen1, setIsOpen1] = useState(true);
+function Box({ children }) {
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen1((open) => !open)}
-      >
-        {isOpen1 ? "–" : "+"}
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
       </button>
-      {isOpen1 && children}
+      {isOpen && children}
     </div>
   );
 }
@@ -133,28 +129,6 @@ function Movie({ movie }) {
         </p>
       </div>
     </li>
-  );
-}
-
-function Watchedbox() {
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [isOpen2, setIsOpen2] = useState(true);
-
-  return (
-    <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen2((open) => !open)}
-      >
-        {isOpen2 ? "–" : "+"}
-      </button>
-      {isOpen2 && (
-        <>
-          <WatchSummery watched={watched} />
-          <WatchedMovieList watched={watched} />
-        </>
-      )}
-    </div>
   );
 }
 
@@ -223,6 +197,7 @@ function WatchedMovie({ movie }) {
 
 function App() {
   const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
@@ -231,10 +206,13 @@ function App() {
         <Numresults movies={movies} />
       </Navbar>
       <Main>
-        <Listbox>
+        <Box>
           <MovieList movies={movies} />
-        </Listbox>
-        <Watchedbox />
+        </Box>
+        <Box>
+          <WatchSummery watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
